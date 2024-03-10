@@ -175,7 +175,7 @@ export const MainPage: React.FC<{}> = (props) => {
         />
       )}
       <div className="title">
-        <Header>Proof of Twitter: ZK Email Demo</Header>
+        <Header>Proof of Twitter: Hedwig Demo</Header>
       </div>
 
       <Col
@@ -187,35 +187,32 @@ export const MainPage: React.FC<{}> = (props) => {
         }}
       >
         <span>
-          Welcome to a demo page for ZK-Email technology.{" "}
+          Welcome to a demo page for Hedwig technology.{" "}
           <a href="https://github.com/zk-email-verify/zk-email-verify/">
             Our library
           </a>{" "}
           will allow you to generate zero knowledge proofs proving you received
           some email and mask out any private data, without trusting our server
-          to keep your privacy. This demo is just one use-case that lets you
-          prove you own a Twitter username on-chain, by verifying confirmation
-          emails (and their normally-hidden headers) from Twitter.
-          Visit <a href="https://prove.email/blog/zkemail">our blog</a>{" "} to
-          learn more about ZK Email and you can find the technical details
-          on how this demo is built {" "}
-          <a href="https://prove.email/blog/twitter">here</a>.
+          to maintain a zk-oracle. This demo is just one use-case that lets you
+          update price data on-chain, by verifying confirmation
+          emails (and their normally-hidden headers) from Mail Brew daily newsletter, and fetch 
+          price data needed.
           <br />
-          If you wish to generate a ZK proof of Twitter badge (NFT), you must:
+          If you wish to generate a ZK proof of Price data, you must:
         </span>
         <NumberedStep step={1}>
-          Send yourself a{" "}
+          Signup for newsletter {" "}
           <a
-            href="https://twitter.com/account/begin_password_reset"
+            href="https://mailbrew.com/"
             target="_blank"
             rel="noreferrer"
           >
-            password reset email
+            daily digest
           </a>{" "}
-          from Twitter.
+          from Mail brew and create a BTC price feed.
         </NumberedStep>
         <NumberedStep step={2}>
-          In your inbox, find the email from Twitter and click the three dot
+          In your inbox, find the email from Mail brew and click the three dot
           menu, then "Show original" then "Copy to clipboard". If on Outlook,
           download the original email as .eml and copy it instead.
         </NumberedStep>
@@ -226,16 +223,15 @@ export const MainPage: React.FC<{}> = (props) => {
           for a less sketchy email.
         </NumberedStep>
         <NumberedStep step={4}>
-          Paste in your sending Ethereum address. This ensures that no one else
-          can "steal" your proof for another account (frontrunning protection!).
+          Define the price to update for the oracle, here use BTC as example.
         </NumberedStep>
         <NumberedStep step={5}>
           Click <b>"Generate Proof"</b>. Since it is completely client side and
           open source, and you are not trusting us with any private information.
         </NumberedStep>
         <NumberedStep step={6}>
-          Click <b>"Verify"</b> and then <b>"Mint Twitter Badge On-Chain"</b>,
-          and approve to mint the NFT badge that proves Twitter ownership! Note
+          Click <b>"Verify"</b> and then <b>"Update BTC price"</b>,
+          and approve! Note
           that it is 700K gas right now so only feasible on Sepolia, though we
           intend to reduce this soon.
         </NumberedStep>
