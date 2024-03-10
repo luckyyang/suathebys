@@ -140,7 +140,7 @@ export const MainPage: React.FC<{}> = (props) => {
       // reformatProofForChain(proof),
       // publicSignals ? JSON.parse(publicSignals) : [],
       "BTC",
-      "6688.5k",
+      "70k",
     ],
     enabled: true, // !!(proof && publicSignals),
     onError: (error: { message: any }) => {
@@ -221,11 +221,11 @@ export const MainPage: React.FC<{}> = (props) => {
           will allow you to generate zero knowledge proofs proving you received
           some email and mask out any private data, without trusting our server
           to maintain a zk-oracle. This demo is just one use-case that lets you
-          update price data on-chain, by verifying confirmation
+          update price data on-chain, by verifying
           emails (and their normally-hidden headers) from Mail Brew daily newsletter, and fetch
-          price data needed.
+          BTC price.
           <br />
-          If you wish to generate a ZK proof of Price data, you must:
+          If you wish to generate a ZK proof of BTC Price data, you must:
         </span>
         <NumberedStep step={1}>
           Signup for newsletter {" "}
@@ -250,13 +250,10 @@ export const MainPage: React.FC<{}> = (props) => {
           for a less sketchy email.
         </NumberedStep>
         <NumberedStep step={4}>
-          Define the price to update for the oracle, here use BTC as example.
-        </NumberedStep>
-        <NumberedStep step={5}>
           Click <b>"Generate Proof"</b>. Since it is completely client side and
           open source, and you are not trusting us with any private information.
         </NumberedStep>
-        <NumberedStep step={6}>
+        <NumberedStep step={5}>
           Click <b>"Verify"</b> and then <b>"Update BTC price"</b>,
           and approve! Note
           that it is 700K gas right now so only feasible on Sepolia, though we
@@ -283,13 +280,7 @@ export const MainPage: React.FC<{}> = (props) => {
               setEmailFull(e.currentTarget.value);
             }}
           />
-          <SingleLineInput
-            label="Ethereum Address"
-            value={ethereumAddress}
-            onChange={(e) => {
-              setEthereumAddress(e.currentTarget.value);
-            }}
-          />
+         
           <Button
             data-testid="prove-button"
             disabled={
