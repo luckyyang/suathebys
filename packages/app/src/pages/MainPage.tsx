@@ -32,6 +32,7 @@ import { NumberedStep } from "../components/NumberedStep";
 import { TopBanner } from "../components/TopBanner";
 import { ProgressBar } from "../components/ProgressBar";
 
+// todo
 const CIRCUIT_NAME = "twitter";
 
 export const MainPage: React.FC<{}> = (props) => {
@@ -198,7 +199,7 @@ export const MainPage: React.FC<{}> = (props) => {
         />
       )}
       <div className="title">
-        <Header>Proof of Twitter: Hedwig Demo</Header>
+        <Header>Proof of Price: Hedwig Demo</Header>
         <Header>
           <SubHeader>BTC Price: {BTCPrice} </SubHeader>
         </Header>
@@ -487,8 +488,8 @@ export const MainPage: React.FC<{}> = (props) => {
               : isLoading
               ? "Confirm in wallet"
               : verificationPassed
-              ? "Mint Twitter badge on-chain"
-              : "Verify first, before minting on-chain!"}
+              ? "Update price on-chain"
+              : "Verify first, before going on-chain!"}
           </Button>
           {isSuccess && (
             <div>
