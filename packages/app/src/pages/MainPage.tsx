@@ -32,8 +32,7 @@ import { NumberedStep } from "../components/NumberedStep";
 import { TopBanner } from "../components/TopBanner";
 import { ProgressBar } from "../components/ProgressBar";
 
-// todo
-const CIRCUIT_NAME = "twitter";
+const CIRCUIT_NAME = "oracle";
 
 export const MainPage: React.FC<{}> = (props) => {
   const { address } = useAccount();
@@ -283,11 +282,11 @@ export const MainPage: React.FC<{}> = (props) => {
          
           <Button
             data-testid="prove-button"
-            disabled={
-              displayMessage !== "Prove" ||
-              emailFull.length === 0 ||
-              ethereumAddress.length === 0
-            }
+            // disabled={
+            //   displayMessage !== "Prove" ||
+            //   emailFull.length === 0 ||
+            //   ethereumAddress.length === 0
+            // }
             onClick={async () => {
               const emailBuffer = rawEmailToBuffer(emailFull); // Cleaned email as buffer
 
@@ -302,22 +301,24 @@ export const MainPage: React.FC<{}> = (props) => {
               } catch (e) {
                 console.log("Error verifying DKIM", e);
                 setDisplayMessage("Error verifying DKIM");
-                return;
+                // return;
               }
 
-              let input: ITwitterCircuitInputs;
+              let input: any;
               try {
                 setDisplayMessage("Generating proof...");
                 setStatus("generating-input");
-
-                input = await generateTwitterVerifierCircuitInputs({
-                  rsaSignature: dkimResult.signature,
-                  rsaPublicKey: dkimResult.publicKey,
-                  body: dkimResult.body,
-                  bodyHash: dkimResult.bodyHash,
-                  message: dkimResult.message,
+                input = {
                   ethereumAddress,
-                });
+                };
+                // input = await generateTwitterVerifierCircuitInputs({
+                //   rsaSignature: dkimResult.signature,
+                //   rsaPublicKey: dkimResult.publicKey,
+                //   body: dkimResult.body,
+                //   bodyHash: dkimResult.bodyHash,
+                //   message: dkimResult.message,
+                //   ethereumAddress,
+                // });
 
                 console.log("Generated input:", JSON.stringify(input));
               } catch (e) {
@@ -326,7 +327,6 @@ export const MainPage: React.FC<{}> = (props) => {
                 setStatus("error-bad-input");
                 return;
               }
-
               console.time("zk-dl");
               recordTimeForActivity("startedDownloading");
               setDisplayMessage(
