@@ -3,7 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useMount, useUpdateEffect } from "react-use";
 import styled from "styled-components";
 import _ from "lodash";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useReadContract,
+} from "wagmi";
 import {
   rawEmailToBuffer,
 } from "@zk-email/helpers/dist/input-helpers";
@@ -41,6 +46,7 @@ export const MainPage: React.FC<{}> = (props) => {
     localStorage.publicSignals || ""
   );
   const [displayMessage, setDisplayMessage] = useState<string>("Prove");
+  const [BTCprice, setBTCprice] = useState<string>("");
 
   const [verificationMessage, setVerificationMessage] = useState("");
   const [verificationPassed, setVerificationPassed] = useState(false);
@@ -68,6 +74,22 @@ export const MainPage: React.FC<{}> = (props) => {
     startedProving: 0,
     finishedProving: 0,
   });
+
+  useEffect(() => {
+      const result = useReadContract({
+        // @ts-ignore
+        address: import.meta.env.VITE_CONTRACT_ADDRESS,
+        abi: abi,
+        functionName: "getPrice",
+        args: [
+          // reformatProofForChain(proof),
+          // publicSignals ? JSON.parse(publicSignals) : [],
+          "BTC"
+        ],
+      });
+      console.log("getPrice result: ", result);
+      setBTCprice(result);
+  }, []);
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
@@ -195,7 +217,7 @@ export const MainPage: React.FC<{}> = (props) => {
           some email and mask out any private data, without trusting our server
           to maintain a zk-oracle. This demo is just one use-case that lets you
           update price data on-chain, by verifying confirmation
-          emails (and their normally-hidden headers) from Mail Brew daily newsletter, and fetch 
+          emails (and their normally-hidden headers) from Mail Brew daily newsletter, and fetch
           price data needed.
           <br />
           If you wish to generate a ZK proof of Price data, you must:
@@ -238,7 +260,7 @@ export const MainPage: React.FC<{}> = (props) => {
       </Col>
       <Main>
         <Column>
-          <SubHeader>Input</SubHeader>
+          <SubHeader>Input{BTCprice}</SubHeader>
           <DragAndDropTextBox onFileDrop={onFileDrop} />
           <h3
             style={{

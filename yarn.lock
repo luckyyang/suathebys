@@ -1694,8 +1694,8 @@ __metadata:
   linkType: hard
 
 "@coinbase/wallet-sdk@npm:^3.6.6":
-  version: 3.9.1
-  resolution: "@coinbase/wallet-sdk@npm:3.9.1"
+  version: 3.9.2
+  resolution: "@coinbase/wallet-sdk@npm:3.9.2"
   dependencies:
     bn.js: ^5.2.1
     buffer: ^6.0.3
@@ -1706,7 +1706,7 @@ __metadata:
     keccak: ^3.0.3
     preact: ^10.16.0
     sha.js: ^2.4.11
-  checksum: 8e6ab9c1fdfe87c703e65e046c62b5d24821b103ae616646dd79b5639a6fef8861e5548a501598bd21d3b6884cd2ed86821b4517c1d3b90574f23f4ca4a459ba
+  checksum: 3698f2d831f1b5e9eafbe0aed4d265446f752bc92448045e75b5cc66e4462508a331c5f74fd5d2663d7efb1ce1c7a8782d2e774f5e0dfb989a3415f69a28aeee
   languageName: node
   linkType: hard
 
@@ -11524,9 +11524,9 @@ __metadata:
   linkType: hard
 
 "preact@npm:^10.12.0":
-  version: 10.19.3
-  resolution: "preact@npm:10.19.3"
-  checksum: cb4fcc801f7ff302b9706eb4bb4a36cc7cd96f3231ac28baeb3ea5caf6724372222121cb487f66af44a1312bf61dbe74825ce2fda98295d2108e7443c20b0e56
+  version: 10.19.6
+  resolution: "preact@npm:10.19.6"
+  checksum: fe697a4ed6c79ec9997496ec735600744fa14495110da2ea40fa4e22429ad4e116dfe0ed786ab8c5c4fd233a479d1e4ac21ffb6748895ac80d3279c5d187b4c1
   languageName: node
   linkType: hard
 
@@ -14756,13 +14756,13 @@ __metadata:
   linkType: hard
 
 "zustand@npm:^4.3.1":
-  version: 4.4.7
-  resolution: "zustand@npm:4.4.7"
+  version: 4.5.2
+  resolution: "zustand@npm:4.5.2"
   dependencies:
     use-sync-external-store: 1.2.0
   peerDependencies:
     "@types/react": ">=16.8"
-    immer: ">=9.0"
+    immer: ">=9.0.6"
     react: ">=16.8"
   peerDependenciesMeta:
     "@types/react":
@@ -14771,6 +14771,6 @@ __metadata:
       optional: true
     react:
       optional: true
-  checksum: 9aeb6cc86162296c1dac504b8906ff952252c129fb3f05cc8926a7f5c9d7fbe098571d5161b3efe3347c0ee1d80197f787b768c7522721864f7323c28766717e
+  checksum: 160052a7faaefbaad1071e890a06e5d7a04f6ff6985def30a7b4471f4ddbdd1d30bb05b3688a2777cd0b717d1f0d98dad24883a5caa3deeb3afb4d83b6dabc55
   languageName: node
   linkType: hard
