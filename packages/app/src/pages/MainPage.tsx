@@ -7,7 +7,7 @@ import {
   useAccount,
   useContractWrite,
   usePrepareContractWrite,
-  useReadContract,
+  useContractRead,
 } from "wagmi";
 import {
   rawEmailToBuffer,
@@ -46,7 +46,6 @@ export const MainPage: React.FC<{}> = (props) => {
     localStorage.publicSignals || ""
   );
   const [displayMessage, setDisplayMessage] = useState<string>("Prove");
-  const [BTCprice, setBTCprice] = useState<string>("");
 
   const [verificationMessage, setVerificationMessage] = useState("");
   const [verificationPassed, setVerificationPassed] = useState(false);
@@ -75,21 +74,23 @@ export const MainPage: React.FC<{}> = (props) => {
     finishedProving: 0,
   });
 
-  useEffect(() => {
-      const result = useReadContract({
-        // @ts-ignore
-        address: import.meta.env.VITE_CONTRACT_ADDRESS,
-        abi: abi,
-        functionName: "getPrice",
-        args: [
-          // reformatProofForChain(proof),
-          // publicSignals ? JSON.parse(publicSignals) : [],
-          "BTC"
-        ],
-      });
-      console.log("getPrice result: ", result);
-      setBTCprice(result);
-  }, []);
+  const getBTCPrice = (
+  ) => {
+    const { data, isError, isLoading } = useContractRead({
+      // @ts-ignore
+      address: import.meta.env.VITE_CONTRACT_ADDRESS,
+      abi: abi,
+      functionName: "getPrice",
+      args: [
+        // reformatProofForChain(proof),
+        // publicSignals ? JSON.parse(publicSignals) : [],
+        "BTC",
+      ],
+    });
+    return { data, isError, isLoading };
+  };
+  const { data: BTCPrice } = getBTCPrice();
+
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
@@ -198,6 +199,9 @@ export const MainPage: React.FC<{}> = (props) => {
       )}
       <div className="title">
         <Header>Proof of Twitter: Hedwig Demo</Header>
+        <Header>
+          <SubHeader>BTC Price: {BTCPrice} </SubHeader>
+        </Header>
       </div>
 
       <Col
@@ -260,7 +264,7 @@ export const MainPage: React.FC<{}> = (props) => {
       </Col>
       <Main>
         <Column>
-          <SubHeader>Input{BTCprice}</SubHeader>
+          <SubHeader>Input</SubHeader>
           <DragAndDropTextBox onFileDrop={onFileDrop} />
           <h3
             style={{
