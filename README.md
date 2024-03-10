@@ -82,13 +82,13 @@ This will generate `zkey` files, `vkey.json` in `build` directory, and Solidity 
 > Note: We are using a custom fork of `snarkjs` which generated **chunked zkeys**. Chunked zkeys make it easier to use in browser, especially since we have large circuit. You can switch to regular `snarkjs` in `package.json` if you don't want to use chunked zkeys.
 
 
-For browser use, the script also compresses the chunked zkeys. 
+For browser use, the script also compresses the chunked zkeys.
 
 **The compressed zkeys, vkey, wasm are copied to /build/artifacts` directory. This directory can be served using a local server or uploaded to S3 for use in the browser.
 
 To upload to S3, the below script can be used.
 ```bash
-python3 upload_to_s3.py --build-dir <project-path>/hedwig/packages/circuits/build --circuit-name oracle 
+python3 upload_to_s3.py --build-dir <project-path>/hedwig/packages/circuits/build --circuit-name oracle
 ```
 
 There are helper functions in `@zk-email/helpers` package to download and decompress the zkeys in the browser.
@@ -129,7 +129,12 @@ PRIVATE_KEY=<pk-hex> forge script script/DeployOracle.s.sol:Deploy -vvvv --rpc-u
 Currently deployed contracts on Sepolia:
 
 ```
-  Deployed SimpleOracle at address: 0x4370da73a076563448CAd69bD11437fa0814713a
+Deployed SimpleOracle at address:
+0x4370da73a076563448CAd69bD11437fa0814713a # Etherum Sepolia
+0xB74C6Eaf47ed115Ac175872a35140c5590737D95 # Avalanche
+0xB74C6Eaf47ed115Ac175872a35140c5590737D95 # Flare Coston2
+0xB74C6Eaf47ed115Ac175872a35140c5590737D95 # Solana neon evm devnet
+
 ```
 
 ### UI
