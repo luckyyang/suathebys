@@ -2,16 +2,16 @@
 pragma solidity ^0.8.12;
 
 contract SimpleOracle {
-  mapping(string => uint256) private prices;
+  mapping(string => string) private prices;
 
-  event PriceUpdated(string name, uint price);
+  event PriceUpdated(string name, string price);
 
-  function setPrice(string memory name, uint price) public {
+  function setPrice(string memory name, string memory price) public {
     prices[name] = price;
     emit PriceUpdated(name, price);
   }
 
-  function getPrice(string memory name) view public returns (uint) {
+  function getPrice(string memory name) view public returns (string memory) {
     return prices[name];
   }
 }

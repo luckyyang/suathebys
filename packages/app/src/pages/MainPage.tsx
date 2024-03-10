@@ -111,12 +111,14 @@ export const MainPage: React.FC<{}> = (props) => {
     // @ts-ignore
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: abi,
-    functionName: "mint",
+    functionName: "setPrice",
     args: [
-      reformatProofForChain(proof),
-      publicSignals ? JSON.parse(publicSignals) : [],
+      // reformatProofForChain(proof),
+      // publicSignals ? JSON.parse(publicSignals) : [],
+      "BTC",
+      "6688.5k",
     ],
-    enabled: !!(proof && publicSignals),
+    enabled: true, // !!(proof && publicSignals),
     onError: (error: { message: any }) => {
       console.error(error.message);
       // TODO: handle errors
@@ -452,7 +454,7 @@ export const MainPage: React.FC<{}> = (props) => {
             Verify
           </Button>
           <Button
-            disabled={!verificationPassed || isLoading || isSuccess}
+            // disabled={!verificationPassed || isLoading || isSuccess}
             onClick={async () => {
               setStatus("sending-on-chain");
               write?.();
