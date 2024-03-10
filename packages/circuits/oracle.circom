@@ -128,7 +128,7 @@ template Test(msg_bytes) {
 		is_consecutive[msg_bytes-1-i][1] <== state_changed[msg_bytes-i].out * is_consecutive[msg_bytes-1-i][0];
 	}
 
-	signal is_substr0[msg_bytes][8];
+	signal is_substr0[msg_bytes][6];
 	signal is_reveal0[msg_bytes];
 	signal output reveal0[msg_bytes];
 	for (var i = 0; i < msg_bytes; i++) {
@@ -138,9 +138,7 @@ template Test(msg_bytes) {
 		is_substr0[i][3] <== is_substr0[i][2] + states[i+1][2] * states[i+2][3];
 		is_substr0[i][4] <== is_substr0[i][3] + states[i+1][3] * states[i+2][1];
 		is_substr0[i][5] <== is_substr0[i][4] + states[i+1][1] * states[i+2][1];
-		is_substr0[i][6] <== is_substr0[i][5] + states[i+1][1] * states[i+2][4];
-		is_substr0[i][7] <== is_substr0[i][6] + states[i+1][2] * states[i+2][4];
-		is_reveal0[i] <== is_substr0[i][7] * is_consecutive[i][1];
+		is_reveal0[i] <== is_substr0[i][5] * is_consecutive[i][1];
 		reveal0[i] <== in[i+1] * is_reveal0[i];
 	}
 }
