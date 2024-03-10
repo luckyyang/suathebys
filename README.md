@@ -1,16 +1,16 @@
-# Proof of Twitter
+# Hedwig
 
-Prove ownership of a X (Twitter) account using an email from Twitter, and mint an NFT with your Twitter username.
+Maintain BTC price feed using newsletter email from provider like Mail Brew.
 
-This project is a demonstration of ZK Email. You can fork it to build other projects using ZK Email.
+This is build on top of ZK Email.
 
-Try it here: https://twitter.prove.email/
+Try ZK email at: https://twitter.prove.email/
 
 ## How it works
 
-You can use an email from Twitter that contains `email was meant for @username` to generate a ZK proof that you own the Twitter account `@username`.
+You can use an email from Mail brew `BTC price XXK` to generate a ZK proof that the data is from a valid source along with that price data.
 
-This ZK proof can be used to mint an NFT corresponding to your username in the `ProofOfTwitter` contract.
+This ZK proof is then checked in contract and once verified, the price data will be updated.
 
 ## Running locally
 
@@ -26,7 +26,7 @@ yarn
 yarn start
 ```
 
-This will start the UI at `http://localhost:3000/` where you can paste the email, generate proof and mint the NFT.
+This will start the UI at `http://localhost:3000/` where you can paste the email, generate proof and update BTC price.
 
 The UI works against the generated zkeys downloaded from AWS and the deployed contract on Sepolia.
 
