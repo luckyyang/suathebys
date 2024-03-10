@@ -1,0 +1,16 @@
+{
+  "include": [".", "types.d.ts"],
+  "exclude": ["tests", "dist", "**.test.*"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "module": "CommonJS",
+    "typeRoots": ["./../../node_modules/@types"],
+    "esModuleInterop": true,
+    "target": "es2022",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "strict": true
+  }
+}
