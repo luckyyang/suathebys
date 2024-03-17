@@ -12,9 +12,9 @@ Using ETH on Polygon </p>
 
 ## How it works
 
-1. Seller 
-1.1 Upload data in confidential storage in TEE kettle 
-**Data to be sold could be NFT on any chain, private key etc.
+1. Seller <br>
+1.1 Upload data in confidential storage in TEE kettle
+   * Data to be sold could be NFT on any chain, private key etc.
 2. Buyer 
 2.2 Bid on asset on desired chain
 3. Reveal data to buyer through off-chain contract viewing function
