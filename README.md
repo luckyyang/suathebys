@@ -7,8 +7,8 @@ A Cross-chain Auction house built with SUAVE ⚡️🤖
 
 
 # Imagine
-<p align="centre"> Buying an NFT on Arbitrum <br>
-Using ETH on Polygon </p>
+<p align="centre"> Buying an NFT on Arbitrum </p>
+Using ETH on Polygon 
 ## How it works
 
 You can use an email from Mail brew `BTC price XXK` to generate a ZK proof that the data is from a valid source along with that price data.
