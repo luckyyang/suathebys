@@ -89,7 +89,7 @@ export const MainPage: React.FC<{}> = (props) => {
     return { data, isError, isLoading };
   };
   const { data: BTCPrice } = getBTCPrice();
-
+  console.log("BTCPrice: ", BTCPrice);
   useEffect(() => {
     if (address) {
       setEthereumAddress(address);
@@ -216,7 +216,9 @@ export const MainPage: React.FC<{}> = (props) => {
         </NumberedStep>
       </Col>
       <Col>
-        <Header style={{border: "2px solid black", padding: 30}}>BTC Price: {BTCPrice} </Header>
+        <Header style={{ border: "2px solid black", padding: 30 }}>
+          BTC Price: {String(BTCPrice) || 0}{" "}
+        </Header>
       </Col>
       <Main>
         <Column>
@@ -440,7 +442,11 @@ export const MainPage: React.FC<{}> = (props) => {
           {isSuccess && (
             <div>
               Transaction:{" "}
-              <a href={"https://sepolia.etherscan.io/tx/" + data?.hash}>
+              <a
+                href={
+                  "https://explorer.rigil.suave.flashbots.net/tx/" + data?.hash
+                }
+              >
                 {data?.hash}
               </a>
             </div>

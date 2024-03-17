@@ -10,28 +10,44 @@ import {
   lightTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import { type Chain } from "viem";
+
+export const suave = {
+  id: 16813125,
+  name: "Suave",
+  nativeCurrency: { name: "Suave ETH", symbol: "SuaveETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: ["https://rpc.rigil.suave.flashbots.net"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "rigil",
+      url: "https://explorer.rigil.suave.flashbots.net/",
+    },
+  },
+  contracts: {},
+} as const satisfies Chain;
 
 
 const { connectors } = getDefaultWallets({
   appName: "Hedwig - Email Oracle",
-  chains: [sepolia],
+  chains: [suave],
   projectId: "b68298f4e6597f970ac06be1aea7998d",
 });
 
 const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
-    chain: sepolia,
-    transport: http()
+    chain: suave,
+    transport: http(),
   }),
   connectors: connectors,
-})
-
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <WagmiConfig config={config}>
-      <RainbowKitProvider chains={[sepolia]} theme={lightTheme()}>
+      <RainbowKitProvider chains={[suave]} theme={lightTheme()}>
         <App />
       </RainbowKitProvider>
     </WagmiConfig>
