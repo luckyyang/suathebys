@@ -30,7 +30,7 @@ export const suave = {
 
 
 const { connectors } = getDefaultWallets({
-  appName: "Suathby's-Cross chain Auction house Build with SUAVE ⚡🤖",
+  appName: "Suatheby's-Cross chain Auction house Build with SUAVE ⚡🤖",
   chains: [suave],
   projectId: "b68298f4e6597f970ac06be1aea7998d",
 });

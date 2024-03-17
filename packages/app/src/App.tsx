@@ -15,7 +15,7 @@ const NavSection = () => {
 
   return (
     <Nav>
-      <Logo to={"/"}>Suathby's</Logo>
+      <Logo to={"/"}>Suatheby's</Logo>
       <div
         style={{
           display: "flex",

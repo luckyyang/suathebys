@@ -9,9 +9,6 @@ import {
   usePrepareContractWrite,
   useContractRead,
 } from "wagmi";
-import {
-  rawEmailToBuffer,
-} from "@zk-email/helpers/dist/input-helpers";
 import { abi } from "../abi.json";
 import { LabeledTextArea } from "../components/LabeledTextArea";
 import DragAndDropTextBox from "../components/DragAndDropTextBox";
@@ -24,13 +21,13 @@ import { ProgressBar } from "../components/ProgressBar";
 
 export const MainPage: React.FC<{}> = (props) => {
   const { address } = useAccount();
-
+  const dataIdFroOne = "0x6c31fc15422ebad28aaf9089c306702f";
   const [ethereumAddress, setEthereumAddress] = useState<string>(address ?? "");
   const [decryptionCondition, setDecryptionCondition] = useState<string>("0");
   const [allowedPeekers, setAllowedPeekers] = useState<string[]>([address ?? ""]);
   const [allowedStores, setAllowedStores] = useState<string[]>([address ?? ""]);
   const [dataType, setDataType] = useState<string>("namespace");
-  const [buyDataId, setBuyDataId] = useState<string>("0");
+  const [buyDataId, setBuyDataId] = useState<string>(dataIdFroOne);
   const [buyDataKey, setBuyDataKey] = useState<string>("0");
   const [proof, setProof] = useState<string>(localStorage.proof || "");
   const [publicSignals, setPublicSignals] = useState<string>(
@@ -140,7 +137,7 @@ export const MainPage: React.FC<{}> = (props) => {
     <Container>
       <div className="title">
         <Header>
-          Suathby's-Cross chain Auction house Build with SUAVE ⚡🤖
+          Suatheby's-Cross chain Auction house Build with SUAVE ⚡🤖
         </Header>
       </div>
       <Col
@@ -209,13 +206,13 @@ export const MainPage: React.FC<{}> = (props) => {
               setBuyDataId(e.currentTarget.value);
             }}
           />
-          <SingleLineInput
+          {/* <SingleLineInput
             label="buyDataKey"
             value={buyDataKey}
             onChange={(e) => {
               setBuyDataKey(e.currentTarget.value);
             }}
-          />
+          /> */}
           <Button
             // disabled={!verificationPassed || isLoading || isSuccess}
             onClick={async () => {
@@ -254,35 +251,6 @@ const TimerDisplayContainer = styled.div`
   flex-direction: column;
   font-size: 8px;
 `;
-
-const TimerDisplay = ({ timers }: { timers: Record<string, number> }) => {
-  return (
-    <TimerDisplayContainer>
-      {timers["startedDownloading"] && timers["finishedDownloading"] ? (
-        <div>
-          Zkey Download time:&nbsp;
-          <span data-testid="download-time">
-            {timers["finishedDownloading"] - timers["startedDownloading"]}
-          </span>
-          ms
-        </div>
-      ) : (
-        <div></div>
-      )}
-      {timers["startedProving"] && timers["finishedProving"] ? (
-        <div>
-          Proof generation time:&nbsp;
-          <span data-testid="proof-time">
-            {timers["finishedProving"] - timers["startedProving"]}
-          </span>
-          ms
-        </div>
-      ) : (
-        <div></div>
-      )}
-    </TimerDisplayContainer>
-  );
-};
 
 const Header = styled.span`
   font-weight: 600;
