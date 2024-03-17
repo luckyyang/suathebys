@@ -3,7 +3,7 @@
 Welcome to Suatheby's.
 A Cross-chain Auction house built with SUAVE ⚡️🤖 Secret sharing through a Trusted execution environment (TEE)
 
-![Banner](./Suathebys.png)
+![Banner](./suathebys.png)
 
 
 # Imagine
