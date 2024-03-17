@@ -1,11 +1,8 @@
-# Hedwig
+# Suatheby's
 
-Welcome to Hedwig. Hedwig allows you to generate client-side zero-knowledge proofs proving you have received some email and mask out any private data, without trusting a server to maintain a zk-oracle onchain.
+Welcome to Suatheby's. Suatheby's is a Cross-chain Auction house built with SUAVE ⚡️🤖
 
-Maintain BTC price feed using newsletter email from provider like Mail Brew.
-
-This is build on top of ZK Email.
-
+[./suathbys.png]
 
 ## How it works
 
