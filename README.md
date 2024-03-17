@@ -7,8 +7,8 @@ A Cross-chain Auction house built with SUAVE ⚡️🤖
 
 
 # Imagine
-<p align="center"> Buying an NFT on Arbitrum </p>
-Using ETH on Polygon 
+<p align="center"> Buying an NFT on Arbitrum <br>
+Using ETH on Polygon </p>
 
 ## How it works
 
