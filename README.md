@@ -14,10 +14,12 @@ Using ETH on Polygon </p>
 
 1. Seller <br>
 1.1 Upload data in confidential storage in TEE kettle
-   * Data to be sold could be NFT on any chain, private key etc.
-2. Buyer 
-2.2 Bid on asset on desired chain
-3. Reveal data to buyer through off-chain contract viewing function
+   * Data to be sold could be NFT on any chain, private key, etc.
+2. Buyer <br>
+2.2 Bid on asset on the desired chain
+3. Reveal data to buyer through the off-chain contract viewing function
+
+This is made possible with the unique architecture of Suave kettle running in TEE which brings enhanced privacy /(no-one, not even the host OS, can see unencrypted data) and integrity /(you can be sure the correct code, and only that code, is running at all times).
 
 ## Running locally
 
