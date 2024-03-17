@@ -12,9 +12,12 @@ Using ETH on Polygon </p>
 
 ## How it works
 
-You can use an email from Mail brew `BTC price XXK` to generate a ZK proof that the data is from a valid source along with that price data.
-
-This ZK proof is then checked in contract and once verified, the price data will be updated.
+1. Seller 
+1.1 Upload data in confidential storage in TEE kettle 
+**Data to be sold could be NFT on any chain, private key etc.
+2. Buyer 
+2.2 Bid on asset on desired chain
+3. Reveal data to buyer through off-chain contract viewing function
 
 ## Running locally
 
