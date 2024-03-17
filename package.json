@@ -1,7 +1,7 @@
 {
-  "name": "@zk-email/proof-of-twitter",
+  "name": "Suathbys",
   "version": "1.0.0",
-  "description": "Proof of twitter username using ZK Email",
+  "description": "Cross chain Auction house Build with SUAVE ⚡🤖",
   "private": true,
   "workspaces": [
     "packages/*"
