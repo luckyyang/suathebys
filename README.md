@@ -2,7 +2,7 @@
 
 Welcome to Suatheby's. Suatheby's is a Cross-chain Auction house built with SUAVE ⚡️🤖
 
-[./suathbys.png]
+！[./suathbys.png]
 
 ## How it works
 
