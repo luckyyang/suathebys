@@ -1,7 +1,7 @@
 # Suatheby's
 
 Welcome to Suatheby's. 
-A Cross-chain Auction house built with SUAVE ⚡️🤖
+A Cross-chain Auction house built with SUAVE ⚡️🤖 Secret sharing through a Trusted execution environment (TEE)
 
 ![Banner](./suathbys.png)
 
@@ -19,7 +19,7 @@ Using ETH on Polygon </p>
 2.2 Bid on asset on the desired chain
 3. Reveal data to buyer through the off-chain contract viewing function
 
-This is made possible with the unique architecture of Suave kettle running in TEE which brings enhanced privacy /(no-one, not even the host OS, can see unencrypted data) and integrity /(you can be sure the correct code, and only that code, is running at all times).
+This is made possible with the unique architecture of Suave kettle running in TEE which brings enhanced privacy (no-one, not even the host OS, can see unencrypted data) and integrity (you can be sure the correct data, and only that data, is stored at all times).
 
 ## Running locally
 
