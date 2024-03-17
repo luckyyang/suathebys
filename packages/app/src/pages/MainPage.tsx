@@ -52,7 +52,6 @@ export const MainPage: React.FC<{}> = (props) => {
   const [lastAction, setLastAction] = useState<"" | "sign" | "verify" | "send">(
     ""
   );
-  const [showBrowserWarning, setShowBrowserWarning] = useState<boolean>(false);
   const [downloadProgress, setDownloadProgress] = useState<number>(0);
   const [status, setStatus] = useState<
     | "not-started"
@@ -80,25 +79,16 @@ export const MainPage: React.FC<{}> = (props) => {
       // @ts-ignore
       address: import.meta.env.VITE_CONTRACT_ADDRESS,
       abi: abi,
-      functionName: "getPrice",
+      functionName: "numRecords",
       args: [
         // reformatProofForChain(proof),
         // publicSignals ? JSON.parse(publicSignals) : [],
-        "BTC",
+        // "BTC",
       ],
     });
     return { data, isError, isLoading };
   };
   const { data: BTCPrice } = getBTCPrice();
-
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const isChrome = userAgent.indexOf("Chrome") > -1;
-    if (!isChrome) {
-      setShowBrowserWarning(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (address) {
@@ -115,35 +105,20 @@ export const MainPage: React.FC<{}> = (props) => {
     }));
   };
 
-  const reformatProofForChain = (proofStr: string) => {
-    if (!proofStr) return [];
-
-    const proof = JSON.parse(proofStr);
-
-    return [
-      proof.pi_a.slice(0, 2),
-      proof.pi_b
-        .slice(0, 2)
-        .map((s: string[]) => s.reverse())
-        .flat(),
-      proof.pi_c.slice(0, 2),
-    ].flat();
-  };
-
   const { config } = usePrepareContractWrite({
     // @ts-ignore
     address: import.meta.env.VITE_CONTRACT_ADDRESS,
     abi: abi,
-    functionName: "setPrice",
+    functionName: "newDataRecord",
     args: [
-      // reformatProofForChain(proof),
-      // publicSignals ? JSON.parse(publicSignals) : [],
-      "BTC",
-      "69.5k",
+      0,
+      [ethereumAddress],
+      [ethereumAddress],
+      "namespace",
     ],
     enabled: true, // !!(proof && publicSignals),
     onError: (error: { message: any }) => {
-      console.error(error.message);
+      console.error("error happened: ", error.message);
       // TODO: handle errors
     },
   });
@@ -192,11 +167,6 @@ export const MainPage: React.FC<{}> = (props) => {
 
   return (
     <Container>
-      {showBrowserWarning && (
-        <TopBanner
-          message={"ZK Email only works on Chrome or Chromium-based browsers."}
-        />
-      )}
       <div className="title">
         <Header>Proof of Price: Hedwig Demo</Header>
       </div>
@@ -300,14 +270,6 @@ export const MainPage: React.FC<{}> = (props) => {
                 input = {
                   ethereumAddress,
                 };
-                // input = await generateTwitterVerifierCircuitInputs({
-                //   rsaSignature: dkimResult.signature,
-                //   rsaPublicKey: dkimResult.publicKey,
-                //   body: dkimResult.body,
-                //   bodyHash: dkimResult.bodyHash,
-                //   message: dkimResult.message,
-                //   ethereumAddress,
-                // });
 
                 console.log("Generated input:", JSON.stringify(input));
               } catch (e) {
