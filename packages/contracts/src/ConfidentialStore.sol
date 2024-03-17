@@ -12,6 +12,7 @@ contract ConfidentialStore {
     uint64 public numRecords;
 
     type DataId is bytes16;
+    event Buy(Suave.DataId id);
 
     constructor() {
         // vm.record();
@@ -80,6 +81,13 @@ contract ConfidentialStore {
         }
 
         revert("Not allowed to retrieve");
+    }
+
+    function buy(Suave.DataId dataId) public {
+        address[] storage allowedPeekers = dataRecords[dataId].allowedPeekers;
+        allowedPeekers.push(msg.sender);
+        dataRecords[dataId].allowedPeekers = allowedPeekers;
+        emit Buy(dataId);
     }
 
     function test() pure public returns (int) {

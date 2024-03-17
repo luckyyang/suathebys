@@ -1,0 +1,330 @@
+{
+	"compiler": {
+		"version": "0.8.25+commit.b61c2a91"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "Suave.DataId",
+						"name": "id",
+						"type": "bytes16"
+					}
+				],
+				"name": "Buy",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "Suave.DataId",
+						"name": "dataId",
+						"type": "bytes16"
+					}
+				],
+				"name": "buy",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "Suave.DataId",
+						"name": "dataId",
+						"type": "bytes16"
+					},
+					{
+						"internalType": "string",
+						"name": "key",
+						"type": "string"
+					}
+				],
+				"name": "confidentialRetrieve",
+				"outputs": [
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "Suave.DataId",
+						"name": "dataId",
+						"type": "bytes16"
+					},
+					{
+						"internalType": "string",
+						"name": "key",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes",
+						"name": "value",
+						"type": "bytes"
+					}
+				],
+				"name": "confidentialStore",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint64",
+						"name": "cond",
+						"type": "uint64"
+					},
+					{
+						"internalType": "string",
+						"name": "namespace",
+						"type": "string"
+					}
+				],
+				"name": "fetchDataRecords",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "Suave.DataId",
+								"name": "id",
+								"type": "bytes16"
+							},
+							{
+								"internalType": "Suave.DataId",
+								"name": "salt",
+								"type": "bytes16"
+							},
+							{
+								"internalType": "uint64",
+								"name": "decryptionCondition",
+								"type": "uint64"
+							},
+							{
+								"internalType": "address[]",
+								"name": "allowedPeekers",
+								"type": "address[]"
+							},
+							{
+								"internalType": "address[]",
+								"name": "allowedStores",
+								"type": "address[]"
+							},
+							{
+								"internalType": "string",
+								"name": "version",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Suave.DataRecord[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "int64",
+						"name": "recordsNum",
+						"type": "int64"
+					}
+				],
+				"name": "genDataId",
+				"outputs": [
+					{
+						"internalType": "Suave.DataId",
+						"name": "",
+						"type": "bytes16"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "decryptionCondition",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "dataType",
+						"type": "string"
+					}
+				],
+				"name": "genKey",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint64",
+						"name": "decryptionCondition",
+						"type": "uint64"
+					},
+					{
+						"internalType": "address[]",
+						"name": "allowedPeekers",
+						"type": "address[]"
+					},
+					{
+						"internalType": "address[]",
+						"name": "allowedStores",
+						"type": "address[]"
+					},
+					{
+						"internalType": "string",
+						"name": "dataType",
+						"type": "string"
+					}
+				],
+				"name": "newDataRecord",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "Suave.DataId",
+								"name": "id",
+								"type": "bytes16"
+							},
+							{
+								"internalType": "Suave.DataId",
+								"name": "salt",
+								"type": "bytes16"
+							},
+							{
+								"internalType": "uint64",
+								"name": "decryptionCondition",
+								"type": "uint64"
+							},
+							{
+								"internalType": "address[]",
+								"name": "allowedPeekers",
+								"type": "address[]"
+							},
+							{
+								"internalType": "address[]",
+								"name": "allowedStores",
+								"type": "address[]"
+							},
+							{
+								"internalType": "string",
+								"name": "version",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Suave.DataRecord",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "numRecords",
+				"outputs": [
+					{
+						"internalType": "uint64",
+						"name": "",
+						"type": "uint64"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "test",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/ConfidentialStore.sol": "ConfidentialStore"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": [
+			":@openzeppelin/contracts-upgradeable=./../../node_modules/@openzeppelin/contracts-upgradeable",
+			":@openzeppelin/contracts=./../../node_modules/@openzeppelin/contracts",
+			":@openzeppelin=./../../node_modules/@openzeppelin/contracts",
+			":@zk-email/contracts=./../../node_modules/@zk-email/contracts",
+			":ds-test=./../../node_modules/ds-test/src",
+			":forge-std=./../../node_modules/forge-std/src"
+		]
+	},
+	"sources": {
+		"src/ConfidentialStore.sol": {
+			"keccak256": "0x0330ed0a95cf8a49b7bcaf7da2cd86d8eb04924109b12dd181a78137761d0496",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://95fd0d8679f0bd7b489f7d7afeb6f453968edccf5522f13dbb93bf9020a86e08",
+				"dweb:/ipfs/QmX4rtMXfswkwra3Vu7rgoHkVqwu6EfoDWAvC3suQ9bGNQ"
+			]
+		},
+		"src/Suave.sol": {
+			"keccak256": "0xc8d355701676c35b85482124ed4add385d02003662e8ef76b7941d90cdc42c08",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://793495a5c65dbe664bf5838df49ebf1df6574e5d7f599910660ba4b1101fa289",
+				"dweb:/ipfs/QmdtvLzEZZpuUpndoPJ3mqSyAXaf2uWZ19FvJQrmJkgXs5"
+			]
+		}
+	},
+	"version": 1
+}

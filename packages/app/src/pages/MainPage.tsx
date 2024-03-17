@@ -12,17 +12,7 @@ import {
 import {
   rawEmailToBuffer,
 } from "@zk-email/helpers/dist/input-helpers";
-import { verifyDKIMSignature, DKIMVerificationResult } from "@zk-email/helpers/dist/dkim";
-import {
-  downloadProofFiles,
-  generateProof,
-  verifyProof,
-} from "@zk-email/helpers/dist/zkp";
 import { abi } from "../abi.json";
-import {
-  generateTwitterVerifierCircuitInputs,
-  ITwitterCircuitInputs,
-} from "@proof-of-twitter/circuits/helpers";
 import { LabeledTextArea } from "../components/LabeledTextArea";
 import DragAndDropTextBox from "../components/DragAndDropTextBox";
 import { SingleLineInput } from "../components/SingleLineInput";
@@ -32,15 +22,16 @@ import { NumberedStep } from "../components/NumberedStep";
 import { TopBanner } from "../components/TopBanner";
 import { ProgressBar } from "../components/ProgressBar";
 
-const CIRCUIT_NAME = "oracle";
-
 export const MainPage: React.FC<{}> = (props) => {
   const { address } = useAccount();
 
   const [ethereumAddress, setEthereumAddress] = useState<string>(address ?? "");
-  const [emailFull, setEmailFull] = useState<string>(
-    localStorage.emailFull || ""
-  );
+  const [decryptionCondition, setDecryptionCondition] = useState<string>("0");
+  const [allowedPeekers, setAllowedPeekers] = useState<string[]>([address ?? ""]);
+  const [allowedStores, setAllowedStores] = useState<string[]>([address ?? ""]);
+  const [dataType, setDataType] = useState<string>("namespace");
+  const [buyDataId, setBuyDataId] = useState<string>("0");
+  const [buyDataKey, setBuyDataKey] = useState<string>("0");
   const [proof, setProof] = useState<string>(localStorage.proof || "");
   const [publicSignals, setPublicSignals] = useState<string>(
     localStorage.publicSignals || ""
@@ -73,7 +64,7 @@ export const MainPage: React.FC<{}> = (props) => {
     finishedProving: 0,
   });
 
-  const getBTCPrice = (
+  const getRecordNum = (
   ) => {
     const { data, isError, isLoading } = useContractRead({
       // @ts-ignore
@@ -88,8 +79,9 @@ export const MainPage: React.FC<{}> = (props) => {
     });
     return { data, isError, isLoading };
   };
-  const { data: BTCPrice } = getBTCPrice();
-  console.log("BTCPrice: ", BTCPrice);
+  const { data: recordNum } = getRecordNum();
+  console.log("recordNum: ", recordNum);
+
   useEffect(() => {
     if (address) {
       setEthereumAddress(address);
@@ -114,7 +106,7 @@ export const MainPage: React.FC<{}> = (props) => {
       0,
       [ethereumAddress],
       [ethereumAddress],
-      "namespace",
+      dataType,
     ],
     enabled: true, // !!(proof && publicSignals),
     onError: (error: { message: any }) => {
@@ -125,52 +117,32 @@ export const MainPage: React.FC<{}> = (props) => {
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
 
-  useMount(() => {
-    function handleKeyDown() {
-      setLastAction("");
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+  // buy
+  const { config: buyConfig } = usePrepareContractWrite({
+    // @ts-ignore
+    address: import.meta.env.VITE_CONTRACT_ADDRESS,
+    abi: abi,
+    functionName: "buy",
+    args: [
+      buyDataId,
+      // buyDataKey,
+    ],
+    enabled: true, // !!(proof && publicSignals),
+    onError: (error: { message: any }) => {
+      console.error("error happened: ", error.message);
+      // TODO: handle errors
+    },
   });
 
-  // local storage stuff
-  useUpdateEffect(() => {
-    if (emailFull) {
-      if (localStorage.emailFull !== emailFull) {
-        console.info("Wrote email to localStorage");
-        localStorage.emailFull = emailFull;
-      }
-    }
-    if (proof) {
-      if (localStorage.proof !== proof) {
-        console.info("Wrote proof to localStorage");
-        localStorage.proof = proof;
-      }
-    }
-    if (publicSignals) {
-      if (localStorage.publicSignals !== publicSignals) {
-        console.info("Wrote publicSignals to localStorage");
-        localStorage.publicSignals = publicSignals;
-      }
-    }
-  }, [emailFull, proof, publicSignals]);
-
-  // On file drop function to extract the text from the file
-  const onFileDrop = async (file: File) => {
-    if (file.name.endsWith(".eml")) {
-      const content = await file.text();
-      setEmailFull(content);
-    } else {
-      alert("Only .eml files are allowed.");
-    }
-  };
+  const { write: buyWrite } = useContractWrite(buyConfig);
 
   return (
     <Container>
       <div className="title">
-        <Header>Proof of Price: Hedwig Demo</Header>
+        <Header>
+          Suathby's-Cross chain Auction house Build with SUAVE ⚡🤖
+        </Header>
       </div>
-
       <Col
         style={{
           gap: "8px",
@@ -179,251 +151,45 @@ export const MainPage: React.FC<{}> = (props) => {
           marginBottom: "2rem",
         }}
       >
-        <span>
-          Welcome to a demo page for Hedwig that allows you to generate zero
-          knowledge proofs proving you received some email and mask out any
-          private data, without trusting our server to maintain a zk-oracle.
-          This demo is just one use-case that lets you update price data
-          on-chain, by verifying emails (and their normally-hidden headers) from
-          Mail Brew daily newsletter, and fetch BTC price.
-          <br />
-          If you wish to generate a ZK proof of BTC Price data, you must:
-        </span>
-        <NumberedStep step={1}>
-          Signup for newsletter{" "}
-          <a href="https://mailbrew.com/" target="_blank" rel="noreferrer">
-            daily digest
-          </a>{" "}
-          from Mail brew and create a BTC price feed.
-        </NumberedStep>
-        <NumberedStep step={2}>
-          In your inbox, find the email from Mail brew and click the three dot
-          menu, then "Show original" then "Copy to clipboard". If on Outlook,
-          download the original email as .eml and copy it instead.
-        </NumberedStep>
-        <NumberedStep step={3}>
-          Copy paste or drop that into the box below. Note that we cannot use
-          this to phish you: we do not know your password, and we never get this
-          email info because we have no server at all. We are actively searching
-          for a less sketchy email.
-        </NumberedStep>
-        <NumberedStep step={4}>
-          Click <b>"Generate Proof"</b>. Since it is completely client side and
-          open source, and you are not trusting us with any private information.
-        </NumberedStep>
-        <NumberedStep step={5}>
-          Click <b>"Verify"</b> and then <b>"Update BTC price"</b>, and approve!
-        </NumberedStep>
+        Sell any digital product online with crypto. Powered by Suave.
       </Col>
       <Col>
         <Header style={{ border: "2px solid black", padding: 30 }}>
-          BTC Price: {String(BTCPrice) || 0}{" "}
+          Records onsale: {String(recordNum) || 0}{" "}
         </Header>
       </Col>
       <Main>
         <Column>
-          <SubHeader>Input</SubHeader>
-          <DragAndDropTextBox onFileDrop={onFileDrop} />
-          <h3
-            style={{
-              textAlign: "center",
-              marginTop: "0rem",
-              marginBottom: "0rem",
-            }}
-          >
-            OR
-          </h3>
-          <LabeledTextArea
-            label="Full Email with Headers"
-            value={emailFull}
+          <SubHeader>Sell</SubHeader>
+          <SingleLineInput
+            label="decryptionCondition"
+            value={decryptionCondition}
             onChange={(e) => {
-              setEmailFull(e.currentTarget.value);
+              setDecryptionCondition(e.currentTarget.value);
+            }}
+          />
+          <SingleLineInput
+            label="allowedPeekers"
+            value={allowedPeekers}
+            onChange={(e) => {
+              setAllowedPeekers(e.currentTarget.value);
+            }}
+          />
+          <SingleLineInput
+            label="allowedStores"
+            value={allowedStores}
+            onChange={(e) => {
+              setAllowedStores(e.currentTarget.value);
+            }}
+          />
+          <SingleLineInput
+            label="dataType"
+            value={dataType}
+            onChange={(e) => {
+              setDataType(e.currentTarget.value);
             }}
           />
 
-          <Button
-            data-testid="prove-button"
-            // disabled={
-            //   displayMessage !== "Prove" ||
-            //   emailFull.length === 0 ||
-            //   ethereumAddress.length === 0
-            // }
-            onClick={async () => {
-              const emailBuffer = rawEmailToBuffer(emailFull); // Cleaned email as buffer
-
-              // Verify DKIM
-              let dkimResult: DKIMVerificationResult;
-              try {
-                setDisplayMessage("Verifying DKIM signature...");
-                // dkimResult = await verifyDKIMSignature(emailBuffer);
-                // console.log(
-                //   `DKIM verified for domain ${dkimResult.signingDomain}`
-                // );
-              } catch (e) {
-                console.log("Error verifying DKIM", e);
-                setDisplayMessage("Error verifying DKIM");
-                // return;
-              }
-
-              let input: any;
-              try {
-                setDisplayMessage("Generating proof...");
-                setStatus("generating-input");
-                input = {
-                  ethereumAddress,
-                };
-
-                console.log("Generated input:", JSON.stringify(input));
-              } catch (e) {
-                console.log("Error generating input", e);
-                setDisplayMessage("Prove");
-                setStatus("error-bad-input");
-                return;
-              }
-              console.time("zk-dl");
-              recordTimeForActivity("startedDownloading");
-              setDisplayMessage(
-                "Downloading compressed proving files... (this may take a few minutes)"
-              );
-              setStatus("downloading-proof-files");
-              try {
-                // await downloadProofFiles(
-                //   // @ts-ignore
-                //   import.meta.env.VITE_CIRCUIT_ARTIFACTS_URL,
-                //   CIRCUIT_NAME,
-                //   () => {
-                //     setDownloadProgress((p) => p + 1);
-                //   }
-                // );
-              } catch (e) {
-                console.log(e);
-                setDisplayMessage("Error downloading proof files");
-                setStatus("error-failed-to-download");
-                return;
-              }
-
-              console.timeEnd("zk-dl");
-              recordTimeForActivity("finishedDownloading");
-
-              console.time("zk-gen");
-              recordTimeForActivity("startedProving");
-              setDisplayMessage(
-                "Starting proof generation... (this will take 6-10 minutes and ~5GB RAM)"
-              );
-              setStatus("generating-proof");
-              console.log("Starting proof generation");
-              // alert("Generating proof, will fail due to input");
-              // const { proof, publicSignals } = await generateProof(
-              //   input,
-              //   // @ts-ignore
-              //   import.meta.env.VITE_CIRCUIT_ARTIFACTS_URL,
-              //   CIRCUIT_NAME
-              // );
-              const proof = JSON.parse(
-                '{"pi_a": ["19201501460375869359786976350200749752225831881815567077814357716475109214225", "11505143118120261821370828666956392917988845645366364291926723724764197308214", "1"], "pi_b": [["17114997753466635923095897108905313066875545082621248342234075865495571603410", "7192405994185710518536526038522451195158265656066550519902313122056350381280"], ["13696222194662648890012762427265603087145644894565446235939768763001479304886", "2757027655603295785352548686090997179551660115030413843642436323047552012712"], ["1", "0"]], "pi_c": ["6168386124525054064559735110298802977718009746891233616490776755671099515304", "11077116868070103472532367637450067545191977757024528865783681032080180232316", "1"], "protocol": "groth16", "curve": "bn128"}'
-              );
-              const publicSignals = JSON.parse(
-                '["0", "0", "0", "0", "0", "0", "0", "0", "32767059066617856", "30803244233155956", "0", "0", "0", "0", "27917065853693287", "28015", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "113659471951225", "0", "0", "1634582323953821262989958727173988295", "1938094444722442142315201757874145583", "375300260153333632727697921604599470", "1369658125109277828425429339149824874", "1589384595547333389911397650751436647", "1428144289938431173655248321840778928", "1919508490085653366961918211405731923", "2358009612379481320362782200045159837", "518833500408858308962881361452944175", "1163210548821508924802510293967109414", "1361351910698751746280135795885107181", "1445969488612593115566934629427756345", "2457340995040159831545380614838948388", "2612807374136932899648418365680887439", "16021263889082005631675788949457422", "299744519975649772895460843780023483", "3933359104846508935112096715593287", "556307310756571904145052207427031380052712977221"]'
-              );
-              console.log("Finished proof generation");
-              console.timeEnd("zk-gen");
-              recordTimeForActivity("finishedProving");
-
-              console.log("publicSignals", publicSignals);
-
-              // alert("Done generating proof");
-              setProof(JSON.stringify(proof));
-              // let kek = publicSignals.map((x: string) => BigInt(x));
-              // let soln = packedNBytesToString(kek.slice(0, 12));
-              // let soln2 = packedNBytesToString(kek.slice(12, 147));
-              // let soln3 = packedNBytesToString(kek.slice(147, 150));
-              // setPublicSignals(`From: ${soln}\nTo: ${soln2}\nUsername: ${soln3}`);
-              setPublicSignals(JSON.stringify(publicSignals));
-
-              if (!input) {
-                setStatus("error-failed-to-prove");
-                return;
-              }
-              setLastAction("sign");
-              setDisplayMessage("Finished computing ZK proof");
-              setStatus("done");
-              try {
-                (window as any).cJson = JSON.stringify(input);
-                console.log(
-                  "wrote circuit input to window.cJson. Run copy(cJson)"
-                );
-              } catch (e) {
-                console.error(e);
-              }
-            }}
-          >
-            {displayMessage}
-          </Button>
-          {displayMessage ===
-            "Downloading compressed proving files... (this may take a few minutes)" && (
-            <ProgressBar
-              width={downloadProgress * 10}
-              label={`${downloadProgress} / 10 items`}
-            />
-          )}
-          <ProcessStatus status={status}>
-            {status !== "not-started" ? (
-              <div>
-                Status:
-                <span data-testid={"status-" + status}>{status}</span>
-              </div>
-            ) : (
-              <div data-testid={"status-" + status}></div>
-            )}
-            <TimerDisplay timers={stopwatch} />
-          </ProcessStatus>
-        </Column>
-        <Column>
-          <SubHeader>Output</SubHeader>
-          <LabeledTextArea
-            label="Proof Output"
-            value={proof}
-            onChange={(e) => {
-              setProof(e.currentTarget.value);
-            }}
-            warning={verificationMessage}
-            warningColor={verificationPassed ? "green" : "red"}
-          />
-          <LabeledTextArea
-            label="..."
-            value={publicSignals}
-            secret
-            onChange={(e) => {
-              setPublicSignals(e.currentTarget.value);
-            }}
-            // warning={
-            // }
-          />
-          <Button
-            disabled={emailFull.trim().length === 0 || proof.length === 0}
-            onClick={async () => {
-              try {
-                setLastAction("verify");
-                let ok = true;
-                // const res: boolean = await verifyProof(
-                //   JSON.parse(proof),
-                //   JSON.parse(publicSignals),
-                //   // @ts-ignore
-                //   import.meta.env.VITE_CIRCUIT_ARTIFACTS_URL,
-                //   CIRCUIT_NAME
-                // );
-                // console.log(res);
-                // if (!res) throw Error("Verification failed!");
-                setVerificationMessage("Passed!");
-                setVerificationPassed(ok);
-              } catch (er: any) {
-                setVerificationMessage("Failed to verify " + er.toString());
-                setVerificationPassed(false);
-              }
-            }}
-          >
-            Verify
-          </Button>
           <Button
             // disabled={!verificationPassed || isLoading || isSuccess}
             onClick={async () => {
@@ -431,13 +197,33 @@ export const MainPage: React.FC<{}> = (props) => {
               write?.();
             }}
           >
-            {isSuccess
-              ? "Successfully sent to chain!"
-              : isLoading
-              ? "Confirm in wallet"
-              : verificationPassed
-              ? "Update price on-chain"
-              : "Verify first, before going on-chain!"}
+            Sell
+          </Button>
+        </Column>
+        <Column>
+          <SubHeader>Buy</SubHeader>
+          <SingleLineInput
+            label="buyDataId"
+            value={buyDataId}
+            onChange={(e) => {
+              setBuyDataId(e.currentTarget.value);
+            }}
+          />
+          <SingleLineInput
+            label="buyDataKey"
+            value={buyDataKey}
+            onChange={(e) => {
+              setBuyDataKey(e.currentTarget.value);
+            }}
+          />
+          <Button
+            // disabled={!verificationPassed || isLoading || isSuccess}
+            onClick={async () => {
+              setStatus("sending-on-chain");
+              buyWrite?.();
+            }}
+          >
+            Buy
           </Button>
           {isSuccess && (
             <div>
