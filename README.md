@@ -1,9 +1,14 @@
 # Suatheby's
 
-Welcome to Suatheby's. Suatheby's is a Cross-chain Auction house built with SUAVE ⚡️🤖
+Welcome to Suatheby's. 
+A Cross-chain Auction house built with SUAVE ⚡️🤖
 
 ![Banner](./suathbys.png)
 
+
+# Imagine
+<p align="centre"> Buying an NFT on Arbitrum <br>
+Using ETH on Polygon </p>
 ## How it works
 
 You can use an email from Mail brew `BTC price XXK` to generate a ZK proof that the data is from a valid source along with that price data.
