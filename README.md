@@ -22,7 +22,9 @@ Using ETH on Polygon </p>
 This is made possible with the unique architecture of Suave kettle running in TEE which brings enhanced privacy (no-one, not even the host OS, can see unencrypted data) and integrity (you can be sure the correct data, and only that data, is stored at all times).
 
 # Future work
-1. ZK-SNARK the data and reveal only the necessary part of the data during the bidding process
+1. Enable bidding process, like eBay
+2. Data storage specification, NFT on different chains(arb, polygon)
+3. ZK-SNARK the data and reveal only the necessary part of the data during the bidding process
 
 ## Running locally
 
